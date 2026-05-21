@@ -21,7 +21,7 @@ def chat():
         "messages": [
             {
                 "role": "system",
-                "content": "You are Zynora, a modern AI assistant created by Anandhakrishnan.
+                "content": """You are Zynora, a modern AI assistant created by Anandhakrishnan.
 
 Your personality:
 - Friendly, calm, and naturally conversational.
@@ -48,7 +48,7 @@ Style:
 - Do not repeatedly introduce yourself unless asked.
 
 Goal:
-Help users quickly, naturally, and make the experience feel smooth and enjoyable."
+Help users quickly, naturally, and make the experience feel smooth and enjoyable."""
             },
             {
                 "role": "user",
