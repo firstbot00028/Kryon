@@ -3,95 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zynora AI Assistant</title>
+    <title>Zynora AI</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
-            color: #0d0d0d;
+            color: #000000;
         }
-        /* Hide scrollbar for clean look */
-        ::-webkit-scrollbar {
-            width: 0px;
-            background: transparent;
-        }
-        .code-block-anim {
-            animation: fadeIn 0.3s ease-in-out;
-        }
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Meta AI Style Spinner Animation */
+        .meta-spinner {
+            width: 24px;
+            height: 24px;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        /* Auto-resizing textarea like Meta AI */
+        textarea {
+            resize: none;
+            overflow-y: hidden;
         }
     </style>
 </head>
 <body class="h-screen flex flex-col justify-between relative overflow-hidden">
 
-    <header class="w-full py-3 px-4 flex justify-between items-center bg-white z-10">
+    <header class="w-full pt-4 pb-2 px-4 flex justify-between items-center bg-white/95 backdrop-blur-sm z-10 absolute top-0 left-0 right-0 border-b border-transparent">
         <div class="flex items-center space-x-3">
-            <button class="p-2 hover:bg-gray-100 rounded-full transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            <div class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
                 </svg>
-            </button>
-            <button class="flex items-center space-x-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500">
-                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                </svg>
-                <span>Zynora AI</span>
-            </button>
+            </div>
+            <h1 class="font-semibold text-gray-800 text-lg tracking-tight">Zynora</h1>
         </div>
-        <div class="w-9 h-9 rounded-full bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-700 font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+        <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
             </svg>
-        </div>
+        </button>
     </header>
 
-    <main id="chat-container" class="flex-1 overflow-y-auto px-4 w-full max-w-3xl mx-auto flex flex-col relative pb-24">
-        
-        <div id="initial-state" class="absolute inset-0 flex flex-col items-center justify-center -mt-20">
-            <h1 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">What can I help with?</h1>
-            <button class="p-2 rounded-full border border-gray-200 shadow-sm hover:bg-gray-50 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-600">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                </svg>
-            </button>
-        </div>
-
-        <div id="messages-wrapper" class="flex flex-col space-y-6 pt-4 hidden w-full"></div>
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 w-full max-w-3xl mx-auto flex flex-col relative pb-32 pt-20">
+        <div id="messages-wrapper" class="flex flex-col space-y-6 w-full">
+            </div>
     </main>
 
-    <footer class="absolute bottom-0 w-full bg-white bg-opacity-95 backdrop-blur-sm pb-6 pt-2 px-4">
+    <footer class="absolute bottom-0 w-full bg-gradient-to-t from-white via-white to-transparent pb-6 pt-10 px-4 z-20">
         <div class="max-w-3xl mx-auto">
-            <form id="chat-form" class="relative flex items-center bg-gray-100 rounded-full px-2 py-2 shadow-sm border border-gray-200 focus-within:ring-2 focus-within:ring-gray-300 transition-all">
+            <form id="chat-form" class="relative flex flex-col bg-gray-50 border border-gray-200 rounded-3xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] focus-within:shadow-md focus-within:bg-white transition-all overflow-hidden px-1 pt-1 pb-1.5">
                 
-                <button type="button" class="p-2 text-gray-500 hover:text-black transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                </button>
-
-                <input 
-                    type="text" 
+                <textarea 
                     id="user-input" 
+                    rows="1"
                     placeholder="Ask Zynora..." 
-                    class="flex-1 bg-transparent text-gray-800 placeholder-gray-500 text-base py-2 px-2 outline-none"
-                    autocomplete="off"
-                />
+                    class="w-full bg-transparent text-gray-900 placeholder-gray-500 text-[15px] pt-3 pb-2 px-4 outline-none leading-relaxed min-h-[44px] max-h-[150px]"
+                    oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
+                ></textarea>
 
-                <div class="flex items-center space-x-1 pr-1">
-                    <button type="button" class="p-2 text-gray-500 hover:text-black transition">
+                <div class="flex items-center justify-between px-2 pt-1 w-full">
+                    <button type="button" class="p-2 w-9 h-9 flex items-center justify-center rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-black transition">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                         </svg>
                     </button>
-                    <button type="submit" class="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
-                        </svg>
-                    </button>
+
+                    <div class="flex items-center space-x-2">
+                        <span class="text-[13px] font-medium text-gray-600 bg-white border border-gray-200 px-3 py-1.5 rounded-full hidden sm:block shadow-sm">
+                            Instant
+                        </span>
+                        
+                        <button type="submit" id="send-btn" class="w-9 h-9 bg-[#2563eb] text-white rounded-full hover:bg-blue-700 transition flex items-center justify-center shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                                <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -102,124 +99,152 @@
         const userInput = document.getElementById('user-input');
         const chatContainer = document.getElementById('chat-container');
         const messagesWrapper = document.getElementById('messages-wrapper');
-        const initialState = document.getElementById('initial-state');
 
-        // Function to copy code
+        // Allow 'Enter' key to submit (Shift+Enter for new line)
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.requestSubmit();
+            }
+        });
+
+        // Copy code functionality
         window.copyCode = function(button) {
             const pre = button.parentElement.nextElementSibling.querySelector('code');
             navigator.clipboard.writeText(pre.innerText).then(() => {
                 const originalText = button.innerHTML;
                 button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!`;
-                button.classList.add('text-green-300');
+                button.classList.add('text-green-600');
                 setTimeout(() => {
                     button.innerHTML = originalText;
-                    button.classList.remove('text-green-300');
+                    button.classList.remove('text-green-600');
                 }, 2000);
             });
         }
 
-        // Function to format text into Indigo Code Blocks
-        function formatMessageWithIndigoCode(text) {
+        // Clean White Code Formatting
+        function formatMessageWithCode(text) {
             const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            
-            // Format Code blocks
             let formattedText = text.replace(codeBlockRegex, (match, language, code) => {
                 const langLabel = language || 'code';
                 return `
-                <div class="my-4 rounded-xl overflow-hidden bg-indigo-950 text-indigo-50 font-mono text-sm shadow-md border border-indigo-800/50 code-block-anim w-full">
-                    <div class="flex justify-between items-center px-4 py-2 bg-indigo-900 border-b border-indigo-800">
-                        <span class="text-indigo-300 text-xs font-semibold uppercase tracking-wider">${langLabel}</span>
-                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-indigo-300 hover:text-white transition text-xs">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" />
-                            </svg>
+                <div class="my-4 rounded-xl overflow-hidden bg-white font-mono text-sm shadow-sm border border-gray-200 fade-in w-full">
+                    <div class="flex justify-between items-center px-4 py-2 bg-gray-50 border-b border-gray-200">
+                        <span class="text-gray-500 text-xs font-medium uppercase tracking-wider">${langLabel}</span>
+                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-gray-500 hover:text-black transition text-xs font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" /></svg>
                             Copy
                         </button>
                     </div>
-                    <div class="p-4 overflow-x-auto bg-[#0f1123]">
-                        <pre class="m-0"><code class="text-indigo-100">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+                    <div class="p-4 overflow-x-auto bg-white">
+                        <pre class="m-0"><code class="text-gray-800">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
                     </div>
                 </div>
                 `;
             });
-
-            // Replace line breaks with HTML breaks for normal text
             formattedText = formattedText.replace(/\n/g, '<br>');
             return formattedText;
         }
 
-        // Function to append a message
-        function appendMessage(sender, text) {
-            if (!initialState.classList.contains('hidden')) {
-                initialState.classList.add('hidden');
-                messagesWrapper.classList.remove('hidden');
-            }
-
-            const msgRow = document.createElement('div');
-            
-            if (sender === 'user') {
-                msgRow.className = `flex justify-end w-full animate-fadeIn`;
-                msgRow.innerHTML = `
-                    <div class="bg-gray-100 text-gray-800 rounded-2xl rounded-br-sm px-5 py-3 max-w-[85%] text-[15px] leading-relaxed shadow-sm">
-                        ${text}
-                    </div>
-                `;
-            } else {
-                msgRow.className = `flex items-start space-x-3 w-full animate-fadeIn`;
-                const formattedHtml = formatMessageWithIndigoCode(text);
-                
-                msgRow.innerHTML = `
-                    <div class="w-8 h-8 rounded-full border border-gray-200 flex-shrink-0 flex items-center justify-center bg-white shadow-sm mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-indigo-600">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
-                        </svg>
-                    </div>
-                    <div class="text-gray-800 text-[15px] leading-relaxed w-full max-w-[90%] pb-2">
-                        ${formattedHtml}
-                    </div>
-                `;
-            }
-
-            messagesWrapper.appendChild(msgRow);
-            
-            setTimeout(() => {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }, 10);
+        function scrollToBottom() {
+            setTimeout(() => { chatContainer.scrollTop = chatContainer.scrollHeight; }, 50);
         }
 
-        // CONNECTED TO FLASK BACKEND
+        // Display user message
+        function appendUserMessage(text) {
+            const msgRow = document.createElement('div');
+            msgRow.className = `flex flex-col items-end w-full fade-in`;
+            msgRow.innerHTML = `
+                <div class="bg-[#f3f4f6] text-gray-900 rounded-[20px] rounded-br-sm px-4 py-2.5 max-w-[85%] text-[15px] leading-relaxed shadow-sm">
+                    ${text}
+                </div>
+                <div class="flex items-center gap-2 mt-1 mr-1 text-[11px] text-gray-400">
+                    <span>Today</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 cursor-pointer hover:text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" />
+                    </svg>
+                </div>
+            `;
+            messagesWrapper.appendChild(msgRow);
+            scrollToBottom();
+        }
+
+        // Show Loading Dots
+        function showLoading() {
+            const loaderRow = document.createElement('div');
+            loaderRow.id = 'loading-indicator';
+            loaderRow.className = `flex items-center mt-2 fade-in`;
+            loaderRow.innerHTML = `
+                <svg class="meta-spinner" viewBox="0 0 50 50">
+                    <circle cx="25" cy="10" r="4" fill="#8b5cf6" />
+                    <circle cx="35.6" cy="14.4" r="3.5" fill="#a855f7" />
+                    <circle cx="40" cy="25" r="3" fill="#d946ef" />
+                    <circle cx="35.6" cy="35.6" r="2.5" fill="#ec4899" />
+                    <circle cx="25" cy="40" r="3" fill="#f43f5e" />
+                    <circle cx="14.4" cy="35.6" r="3.5" fill="#3b82f6" />
+                    <circle cx="10" cy="25" r="4" fill="#6366f1" />
+                    <circle cx="14.4" cy="14.4" r="4.5" fill="#8b5cf6" />
+                </svg>
+            `;
+            messagesWrapper.appendChild(loaderRow);
+            scrollToBottom();
+        }
+
+        function hideLoading() {
+            const loader = document.getElementById('loading-indicator');
+            if (loader) loader.remove();
+        }
+
+        // Display AI message
+        function appendAIMessage(text) {
+            const msgRow = document.createElement('div');
+            msgRow.className = `flex items-start space-x-3 w-full fade-in mt-2`;
+            const formattedHtml = formatMessageWithCode(text);
+            
+            msgRow.innerHTML = `
+                <div class="text-gray-800 text-[15px] leading-relaxed w-full max-w-[95%] pb-2">
+                    ${formattedHtml}
+                </div>
+            `;
+            messagesWrapper.appendChild(msgRow);
+            scrollToBottom();
+        }
+
+        // Flask API Call
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const messageText = userInput.value.trim();
             if (!messageText) return;
 
-            // Render user message
-            appendMessage('user', messageText);
+            appendUserMessage(messageText);
             userInput.value = '';
+            userInput.style.height = 'auto'; // Reset height after send
+            showLoading();
 
             try {
-                // Flask റൂട്ട് ആയ '/chat' ലേക്ക് നേരിട്ട് വിളിക്കുന്നു
                 const response = await fetch('/chat', { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: messageText })
                 });
                 
+                hideLoading();
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
                 const data = await response.json();
                 
-                // നിങ്ങളുടെ Flask കോഡിലുള്ള "reply" എന്ന key ഇവിടെ വിളിക്കുന്നു
                 if(data.reply) {
-                    appendMessage('ai', data.reply); 
+                    appendAIMessage(data.reply); 
                 } else {
-                    appendMessage('ai', 'Error: Invalid response from server');
+                    appendAIMessage('Error: Invalid response from server');
                 }
                 
             } catch (error) {
-                appendMessage('ai', `Error: സർവറുമായി ബന്ധപ്പെടാൻ കഴിഞ്ഞില്ല. (${error.message})`);
+                hideLoading();
+                appendAIMessage(`Error: സർവറുമായി ബന്ധപ്പെടാൻ കഴിഞ്ഞില്ല. (${error.message})`);
                 console.error('Fetch error:', error);
             }
         });
