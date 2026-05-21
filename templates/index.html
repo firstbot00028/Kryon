@@ -29,7 +29,7 @@
 
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
         
-        /* Blinking cursor for typing effect */
+        /* Blinking cursor */
         .typing-cursor::after {
             content: '▋';
             display: inline-block;
@@ -111,36 +111,46 @@
             navigator.clipboard.writeText(pre.innerText).then(() => {
                 const originalText = button.innerHTML;
                 button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!`;
-                button.classList.add('text-green-600');
+                button.classList.add('text-green-400');
                 setTimeout(() => {
                     button.innerHTML = originalText;
-                    button.classList.remove('text-green-600');
+                    button.classList.remove('text-green-400');
                 }, 2000);
             });
         }
 
-        // Formatting HTML with Code Boxes
+        // 🌟 UPDATED: PROFESSIONAL BLACK CODE BOX (BUG FIXED)
         function formatMessageWithCode(text) {
-            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
-            let formattedText = text.replace(codeBlockRegex, (match, language, code) => {
-                const langLabel = language || 'code';
-                return `
-                <div class="my-4 rounded-xl border border-gray-200 bg-[#f8f9fa] shadow-sm fade-in w-full overflow-hidden">
-                    <div class="flex justify-between items-center px-4 py-2.5 bg-white border-b border-gray-200">
-                        <span class="text-gray-400 text-[11px] font-bold uppercase tracking-wider">${langLabel}</span>
-                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-gray-500 hover:text-black transition text-[12px] font-medium px-2 py-1 rounded hover:bg-gray-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" /></svg>
-                            Copy
-                        </button>
-                    </div>
-                    <div class="p-4 overflow-x-auto">
-                        <pre class="m-0"><code class="text-[13px] font-mono text-gray-800 leading-loose">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
-                    </div>
-                </div>
-                `;
+            // Split the text safely without breaking HTML
+            const parts = text.split(/(```[\s\S]*?```)/g);
+            let formattedHtml = '';
+            
+            parts.forEach(part => {
+                if (part.startsWith('```') && part.endsWith('```')) {
+                    const match = part.match(/```(\w+)?\n([\s\S]*?)```/);
+                    if(match) {
+                        const langLabel = match[1] || 'code';
+                        const code = match[2];
+                        formattedHtml += `
+                        <div class="my-4 rounded-xl border border-gray-700 bg-[#0d1117] shadow-lg fade-in w-full overflow-hidden">
+                            <div class="flex justify-between items-center px-4 py-2.5 bg-[#161b22] border-b border-gray-700">
+                                <span class="text-gray-400 text-[11px] font-bold uppercase tracking-wider">${langLabel}</span>
+                                <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-gray-400 hover:text-white transition text-[12px] font-medium px-2 py-1 rounded hover:bg-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" /></svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="p-4 overflow-x-auto">
+                                <pre class="m-0"><code class="text-[13px] font-mono text-gray-200 leading-loose">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+                            </div>
+                        </div>`;
+                    }
+                } else {
+                    // Replace normal linebreaks with <br> only outside code boxes
+                    formattedHtml += part.replace(/\n/g, '<br>');
+                }
             });
-            formattedText = formattedText.replace(/\n/g, '<br>');
-            return formattedText;
+            return formattedHtml;
         }
 
         function scrollToBottom() {
@@ -184,72 +194,58 @@
             if (loader) loader.remove();
         }
 
-        // 🌟 TYPEWRITER EFFECT LOGIC
-        function typeWriterEffect(element, htmlContent, speed = 10) {
-            return new Promise((resolve) => {
+        // 🌟 UPDATED: SAFE TYPEWRITER EFFECT (Won't break HTML tags)
+        function typeWriterEffect(element, htmlContent, speed = 15) {
+            return new Promise(async (resolve) => {
                 element.innerHTML = ''; 
-                element.classList.add('typing-cursor'); // Add blinking cursor
+                element.classList.add('typing-cursor');
 
-                let i = 0;
-                let isTag = false;
-                let text = '';
+                // Create a temporary div to parse the HTML properly
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                
+                // Get all child nodes (text nodes, br tags, code divs)
+                const nodes = Array.from(tempDiv.childNodes);
 
-                function type() {
-                    if (i < htmlContent.length) {
-                        text = htmlContent.charAt(i);
-                        
-                        // If it's an HTML tag, insert the whole tag instantly
-                        if (text === '<') {
-                            isTag = true;
+                for (const node of nodes) {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        // Type out pure text safely
+                        const text = node.textContent;
+                        for (let i = 0; i < text.length; i++) {
+                            element.appendChild(document.createTextNode(text[i]));
+                            scrollToBottom();
+                            await new Promise(r => setTimeout(r, speed));
                         }
-                        
-                        if (isTag) {
-                            let tagContent = '';
-                            while (i < htmlContent.length && htmlContent.charAt(i) !== '>') {
-                                tagContent += htmlContent.charAt(i);
-                                i++;
-                            }
-                            tagContent += '>';
-                            element.insertAdjacentHTML('beforeend', tagContent);
-                            isTag = false;
-                        } else {
-                            // Typing regular text
-                            element.insertAdjacentHTML('beforeend', text);
-                        }
-                        
-                        i++;
-                        scrollToBottom();
-                        setTimeout(type, speed);
                     } else {
-                        element.classList.remove('typing-cursor'); // Remove cursor when done
-                        resolve();
+                        // Elements like <br> or full Code Boxes appear instantly
+                        element.appendChild(node.cloneNode(true));
+                        scrollToBottom();
                     }
                 }
-                type();
+                
+                element.classList.remove('typing-cursor');
+                resolve();
             });
         }
 
-        // Display AI Message with Typewriter Effect
+        // Display AI Message
         async function appendAIMessage(text) {
             const msgRow = document.createElement('div');
             msgRow.className = `flex items-start space-x-3 w-full fade-in mt-1`;
             
-            // Format first, type later
             const formattedHtml = formatMessageWithCode(text);
             
-            // Set up UI structure
             msgRow.innerHTML = `
                 <div class="flex-shrink-0 w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center bg-white shadow-sm mt-0.5">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-700">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
                     </svg>
                 </div>
-                <div class="ai-content flex-1 text-gray-800 text-[15px] leading-relaxed pb-2 pt-1"></div>
+                <div class="ai-content flex-1 text-gray-800 text-[15px] leading-relaxed pb-2 pt-1 w-[calc(100%-2.5rem)]"></div>
             `;
             
             messagesWrapper.appendChild(msgRow);
             
-            // Get the text container and start typing
             const textContainer = msgRow.querySelector('.ai-content');
             await typeWriterEffect(textContainer, formattedHtml);
         }
