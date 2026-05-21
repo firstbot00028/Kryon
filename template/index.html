@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AK AI Assistant</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+
+    background:
+    radial-gradient(circle at bottom,#ff7b00 0%,transparent 25%),
+    radial-gradient(circle at top,#7fffd4 0%,transparent 20%),
+    #0b0b0b;
+}
+
+/* Animated Background */
+
+body::before{
+    content:'';
+    position:absolute;
+    width:500px;
+    height:500px;
+
+    background:rgba(255,255,255,0.05);
+
+    filter:blur(100px);
+
+    animation:move 10s infinite alternate;
+}
+
+@keyframes move{
+    from{
+        transform:translate(-100px,-100px);
+    }
+    to{
+        transform:translate(100px,100px);
+    }
+}
+
+/* Phone */
+
+.phone{
+    width:360px;
+    height:760px;
+
+    border-radius:45px;
+
+    padding:24px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:
+    rgba(255,255,255,0.06);
+
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+    0 10px 40px rgba(0,0,0,0.6),
+    inset 0 0 10px rgba(255,255,255,0.08);
+}
+
+/* Glow */
+
+.phone::before{
+    content:'';
+    position:absolute;
+
+    inset:0;
+
+    background:
+    linear-gradient(
+        180deg,
+        rgba(255,255,255,0.15),
+        transparent
+    );
+
+    pointer-events:none;
+}
+
+/* Header */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.icon-btn{
+    width:48px;
+    height:48px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    color:white;
+
+    font-size:20px;
+
+    backdrop-filter:blur(20px);
+}
+
+.title{
+    color:white;
+    font-size:24px;
+    font-weight:600;
+}
+
+/* Tabs */
+
+.tabs{
+    margin-top:25px;
+
+    display:flex;
+    gap:12px;
+}
+
+.tab{
+    flex:1;
+
+    height:52px;
+
+    border-radius:30px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,0.06);
+
+    color:white;
+
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.active{
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.25),
+        rgba(255,255,255,0.08)
+    );
+
+    box-shadow:
+    0 0 20px rgba(255,255,255,0.15);
+}
+
+/* Hero */
+
+.hero{
+    margin-top:35px;
+
+    color:white;
+}
+
+.hero h1{
+    font-size:42px;
+    line-height:1.1;
+}
+
+/* Cards */
+
+.cards{
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:16px;
+}
+
+.card{
+    height:160px;
+
+    padding:18px;
+
+    border-radius:30px;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+
+    color:white;
+
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+
+    background:rgba(255,255,255,0.09);
+}
+
+.card-icon{
+    width:44px;
+    height:44px;
+
+    border-radius:50%;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(255,255,255,0.08);
+
+    margin-bottom:18px;
+}
+
+.card h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.card p{
+    font-size:12px;
+    opacity:0.7;
+}
+
+/* Bottom */
+
+.bottom{
+    position:absolute;
+
+    left:20px;
+    right:20px;
+    bottom:20px;
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.plus{
+    width:56px;
+    height:56px;
+
+    border-radius:50%;
+
+    border:none;
+
+    font-size:28px;
+
+    color:white;
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+}
+
+.input{
+    flex:1;
+
+    height:58px;
+
+    border:none;
+    outline:none;
+
+    border-radius:35px;
+
+    padding:0 20px;
+
+    color:white;
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+}
+
+.input::placeholder{
+    color:rgba(255,255,255,0.6);
+}
+
+.mic{
+    width:58px;
+    height:58px;
+
+    border:none;
+
+    border-radius:50%;
+
+    font-size:22px;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        145deg,
+        #ff8c42,
+        #ff5e00
+    );
+
+    box-shadow:
+    0 0 25px rgba(255,94,0,0.6);
+
+    cursor:pointer;
+}
+
+/* Floating Orb */
+
+.orb{
+    position:absolute;
+
+    width:240px;
+    height:240px;
+
+    border-radius:50%;
+
+    top:120px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0.02)
+    );
+
+    filter:blur(10px);
+
+    opacity:0.4;
+
+    animation:float 5s infinite ease-in-out;
+}
+
+@keyframes float{
+    0%{
+        transform:translateX(-50%) translateY(0);
+    }
+    50%{
+        transform:translateX(-50%) translateY(-15px);
+    }
+    100%{
+        transform:translateX(-50%) translateY(0);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+    <div class="orb"></div>
+
+    <div class="header">
+
+        <div class="icon-btn">←</div>
+
+        <div class="title">Explore</div>
+
+        <div class="icon-btn">🔔</div>
+
+    </div>
+
+    <div class="tabs">
+
+        <div class="tab active">Free</div>
+        <div class="tab">Pro</div>
+
+    </div>
+
+    <div class="hero">
+
+        <h1>How Can I Help You Today?</h1>
+
+    </div>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <div class="card-icon">❤</div>
+
+            <h3>Health</h3>
+
+            <p>Your AI wellness companion.</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">✎</div>
+
+            <h3>Writing</h3>
+
+            <p>Create amazing content instantly.</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">🎓</div>
+
+            <h3>Education</h3>
+
+            <p>Learn smarter with AI.</p>
+
+        </div>
+
+        <div class="card">
+
+            <div class="card-icon">⚡</div>
+
+            <h3>Technology</h3>
+
+            <p>Explore latest AI updates.</p>
+
+        </div>
+
+    </div>
+
+    <div class="bottom">
+
+        <button class="plus">+</button>
+
+        <input
+            class="input"
+            placeholder="Type here..."
+        />
+
+        <button class="mic">🎤</button>
+
+    </div>
+
+</div>
+  <script>
+const input =
+document.querySelector(".input")
+
+const mic =
+document.querySelector(".mic")
+
+mic.addEventListener(
+"click",
+sendMessage
+)
+
+input.addEventListener(
+"keydown",
+(e)=>{
+if(
+e.key==="Enter"
+){
+sendMessage()
+}
+}
+)
+
+async function sendMessage(){
+
+const text =
+input.value.trim()
+
+if(!text)
+return
+
+input.value=
+"Thinking..."
+
+try{
+
+const res =
+await fetch(
+"/chat",
+{
+method:"POST",
+
+headers:{
+"Content-Type":
+"application/json"
+},
+
+body:
+JSON.stringify({
+message:text
+})
+}
+)
+
+const data =
+await res.json()
+
+alert(
+data.reply
+)
+
+input.value=""
+
+}
+
+catch{
+
+alert(
+"Connection error"
+)
+
+input.value=""
+}
+
+}
+  </script>
+
+</body>
+</html>
