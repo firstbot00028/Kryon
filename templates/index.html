@@ -1,685 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
-<title>Zynora</title>
-
-<link
-href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap"
-rel="stylesheet">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins;
-}
-
-:root{
---bg:#09090f;
---card:#14141d;
---line:#232332;
---text:#fff;
---muted:#9ca3af;
---accent:#7c3aed;
-}
-
-body{
-
-height:100vh;
-
-overflow:hidden;
-
-background:
-radial-gradient(
-circle at top,
-#7c3aed33,
-transparent
-),
-var(--bg);
-
-color:white;
-
-}
-
-.app{
-
-height:100vh;
-
-display:flex;
-
-flex-direction:column;
-
-}
-
-/* HEADER */
-
-.header{
-
-height:72px;
-
-display:flex;
-
-align-items:center;
-
-padding:18px;
-
-gap:14px;
-
-backdrop-filter:
-blur(20px);
-
-border-bottom:
-1px solid var(--line);
-
-}
-
-.logo{
-
-width:46px;
-
-height:46px;
-
-border-radius:16px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-font-size:18px;
-
-background:
-
-linear-gradient(
-135deg,
-#7c3aed,
-#a855f7
-);
-
-box-shadow:
-0 0 30px #7c3aed55;
-
-}
-
-.title{
-
-font-size:18px;
-
-font-weight:600;
-
-}
-
-.status{
-
-font-size:12px;
-
-color:var(--muted);
-
-}
-
-/* CHAT */
-
-.messages{
-
-flex:1;
-
-overflow-y:auto;
-
-padding:
-
-24px
-20px
-140px;
-
-}
-
-.messages::-webkit-scrollbar{
-
-width:4px;
-
-}
-
-.messages::-webkit-scrollbar-thumb{
-
-background:#333;
-
-border-radius:10px;
-
-}
-
-.msg{
-
-display:flex;
-
-margin-bottom:18px;
-
-}
-
-.msg.user{
-
-justify-content:flex-end;
-
-}
-
-.bubble{
-
-padding:
-
-14px
-18px;
-
-max-width:82%;
-
-line-height:1.7;
-
-border-radius:24px;
-
-word-break:break-word;
-
-animation:
-fade .2s;
-
-}
-
-.ai .bubble{
-
-background:
-
-rgba(
-255,
-255,
-255,
-.04
-);
-
-border:
-
-1px solid
-rgba(
-255,
-255,
-255,
-.06
-);
-
-}
-
-.user .bubble{
-
-background:
-
-linear-gradient(
-135deg,
-#7c3aed,
-#9333ea
-);
-
-}
-
-@keyframes fade{
-
-from{
-
-opacity:0;
-
-transform:
-translateY(
-10px
-);
-
-}
-
-to{
-
-opacity:1;
-
-}
-
-}
-
-/* INPUT */
-
-.inputArea{
-
-position:fixed;
-
-bottom:0;
-
-left:0;
-
-right:0;
-
-padding:
-
-12px
-16px
-max(
-16px,
-env(
-safe-area-inset-bottom
-)
-);
-
-background:
-
-linear-gradient(
-to top,
-#09090f,
-rgba(
-9,
-9,
-15,
-.85
-)
-);
-
-backdrop-filter:
-
-blur(
-30px
-);
-
-border-top:
-
-1px solid
-var(--line);
-
-}
-
-.box{
-
-display:flex;
-
-align-items:flex-end;
-
-gap:10px;
-
-max-width:900px;
-
-margin:auto;
-
-padding:10px;
-
-border-radius:30px;
-
-background:
-
-rgba(
-255,
-255,
-255,
-.05
-);
-
-border:
-
-1px solid
-rgba(
-255,
-255,
-255,
-.06
-);
-
-}
-
-textarea{
-
-flex:1;
-
-background:none;
-
-border:none;
-
-outline:none;
-
-color:white;
-
-resize:none;
-
-font-size:15px;
-
-padding:12px;
-
-min-height:28px;
-
-max-height:120px;
-
-}
-
-textarea::placeholder{
-
-color:#888;
-
-}
-
-.send{
-
-width:54px;
-
-height:54px;
-
-border:none;
-
-border-radius:50%;
-
-background:
-
-linear-gradient(
-135deg,
-#7c3aed,
-#9333ea
-);
-
-color:white;
-
-font-size:20px;
-
-cursor:pointer;
-
-}
-
-/* TYPING */
-
-.typing{
-
-display:flex;
-
-gap:6px;
-
-}
-
-.typing span{
-
-width:8px;
-
-height:8px;
-
-border-radius:50%;
-
-background:#b794f4;
-
-animation:
-bounce 1s infinite;
-
-}
-
-.typing span:nth-child(2){
-
-animation-delay:.2s;
-
-}
-
-.typing span:nth-child(3){
-
-animation-delay:.4s;
-
-}
-
-@keyframes bounce{
-
-50%{
-
-transform:
-translateY(
--8px
-);
-
-}
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zynora AI Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0d0d0d;
+        }
+        /* Hide scrollbar for clean look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+        .code-block-anim {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-
-<body>
-
-<div class="app">
-
-<div class="header">
-
-<div class="logo">
-
-✦
-
-</div>
-
-<div>
-
-<div class="title">
-
-Zynora
-
-</div>
-
-<div class="status">
-
-created by Anandhakrishnan
-
-</div>
-
-</div>
-
-</div>
-
-<div
-class="messages"
-id="messages">
-
-<div class="msg ai">
-
-<div class="bubble">
-
-Hello 👋<br>
-How can I help today?
-
-</div>
-
-</div>
-
-</div>
-
-<div class="inputArea">
-
-<div class="box">
-
-<textarea
-id="prompt"
-rows="1"
-placeholder="Message Zynora..."
-></textarea>
-
-<button
-class="send"
-onclick="send()">
-
-➜
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<script>
-
-const input=
-document.getElementById(
-"prompt"
-)
-
-const messages=
-document.getElementById(
-"messages"
-)
-
-function add(
-text,
-role
-){
-
-const div=
-document.createElement(
-"div"
-)
-
-div.className=
-`msg ${role}`
-
-div.innerHTML=
-`
-<div class="bubble">
-${text}
-</div>
-`
-
-messages.appendChild(
-div
-)
-
-messages.scrollTop=
-messages.scrollHeight
-
-return div
-
-}
-
-async function send(){
-
-const text=
-input.value.trim()
-
-if(!text)
-return
-
-add(
-text,
-"user"
-)
-
-input.value=""
-
-const typing=
-add(
-`
-<div class="typing">
-<span></span>
-<span></span>
-<span></span>
-</div>
-`,
-"ai"
-)
-
-try{
-
-const res=
-await fetch(
-"/chat",
-{
-
-method:
-"POST",
-
-headers:{
-"Content-Type":
-"application/json"
-},
-
-body:
-JSON.stringify({
-
-message:
-text
-
-})
-
-}
-
-)
-
-const data=
-await res.json()
-
-typing
-.querySelector(
-".bubble"
-)
-.innerHTML=
-data.reply
-
-}
-catch{
-
-typing
-.querySelector(
-".bubble"
-)
-.innerHTML=
-"Connection error"
-
-}
-
-messages.scrollTop=
-messages.scrollHeight
-
-}
-
-input
-.addEventListener(
-
-"keydown",
-
-e=>{
-
-if(
-e.key==="Enter"
-&&
-!e.shiftKey
-){
-
-e.preventDefault()
-
-send()
-
-}
-
-}
-
-)
-
-input
-.addEventListener(
-
-"input",
-
-()=>{
-
-input.style.height=
-"auto"
-
-input.style.height=
-input.scrollHeight+
-"px"
-
-}
-
-)
-
-</script>
-
+<body class="h-screen flex flex-col justify-between relative overflow-hidden">
+
+    <header class="w-full py-3 px-4 flex justify-between items-center bg-white z-10">
+        <div class="flex items-center space-x-3">
+            <button class="p-2 hover:bg-gray-100 rounded-full transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+            <button class="flex items-center space-x-1 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-indigo-500">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                </svg>
+                <span>Zynora AI</span>
+            </button>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-indigo-100 border border-indigo-200 flex items-center justify-center text-indigo-700 font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+        </div>
+    </header>
+
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 w-full max-w-3xl mx-auto flex flex-col relative pb-24">
+        
+        <div id="initial-state" class="absolute inset-0 flex flex-col items-center justify-center -mt-20">
+            <h1 class="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">What can I help with?</h1>
+            <button class="p-2 rounded-full border border-gray-200 shadow-sm hover:bg-gray-50 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-600">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                </svg>
+            </button>
+        </div>
+
+        <div id="messages-wrapper" class="flex flex-col space-y-6 pt-4 hidden w-full"></div>
+    </main>
+
+    <footer class="absolute bottom-0 w-full bg-white bg-opacity-95 backdrop-blur-sm pb-6 pt-2 px-4">
+        <div class="max-w-3xl mx-auto">
+            <form id="chat-form" class="relative flex items-center bg-gray-100 rounded-full px-2 py-2 shadow-sm border border-gray-200 focus-within:ring-2 focus-within:ring-gray-300 transition-all">
+                
+                <button type="button" class="p-2 text-gray-500 hover:text-black transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+
+                <input 
+                    type="text" 
+                    id="user-input" 
+                    placeholder="Ask Zynora..." 
+                    class="flex-1 bg-transparent text-gray-800 placeholder-gray-500 text-base py-2 px-2 outline-none"
+                    autocomplete="off"
+                />
+
+                <div class="flex items-center space-x-1 pr-1">
+                    <button type="button" class="p-2 text-gray-500 hover:text-black transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                        </svg>
+                    </button>
+                    <button type="submit" class="p-2 bg-black text-white rounded-full hover:bg-gray-800 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatContainer = document.getElementById('chat-container');
+        const messagesWrapper = document.getElementById('messages-wrapper');
+        const initialState = document.getElementById('initial-state');
+
+        // Function to copy code
+        window.copyCode = function(button) {
+            const pre = button.parentElement.nextElementSibling.querySelector('code');
+            navigator.clipboard.writeText(pre.innerText).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg> Copied!`;
+                button.classList.add('text-green-300');
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('text-green-300');
+                }, 2000);
+            });
+        }
+
+        // Function to format text into Indigo Code Blocks
+        function formatMessageWithIndigoCode(text) {
+            const codeBlockRegex = /```(\w+)?\n([\s\S]*?)```/g;
+            
+            // Format Code blocks
+            let formattedText = text.replace(codeBlockRegex, (match, language, code) => {
+                const langLabel = language || 'code';
+                return `
+                <div class="my-4 rounded-xl overflow-hidden bg-indigo-950 text-indigo-50 font-mono text-sm shadow-md border border-indigo-800/50 code-block-anim w-full">
+                    <div class="flex justify-between items-center px-4 py-2 bg-indigo-900 border-b border-indigo-800">
+                        <span class="text-indigo-300 text-xs font-semibold uppercase tracking-wider">${langLabel}</span>
+                        <button onclick="copyCode(this)" class="flex items-center gap-1.5 text-indigo-300 hover:text-white transition text-xs">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.055m7.5 10.375H12a1.125 1.125 0 0 1-1.125-1.125v-2.25m1.5-3.926a9.06 9.06 0 0 1 1.5-.055H19.875c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V11.25a9.06 9.06 0 0 0 1.5-.055m7.5 10.375c-.621 0-1.125-.504-1.125-1.125V11.25c0-.621.504-1.125 1.125-1.125m-7.5 10.375V11.25m-7.5 10.375V11.25" />
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                    <div class="p-4 overflow-x-auto bg-[#0f1123]">
+                        <pre class="m-0"><code class="text-indigo-100">${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+                    </div>
+                </div>
+                `;
+            });
+
+            // Replace line breaks with HTML breaks for normal text
+            formattedText = formattedText.replace(/\n/g, '<br>');
+            return formattedText;
+        }
+
+        // Function to append a message
+        function appendMessage(sender, text) {
+            if (!initialState.classList.contains('hidden')) {
+                initialState.classList.add('hidden');
+                messagesWrapper.classList.remove('hidden');
+            }
+
+            const msgRow = document.createElement('div');
+            
+            if (sender === 'user') {
+                msgRow.className = `flex justify-end w-full animate-fadeIn`;
+                msgRow.innerHTML = `
+                    <div class="bg-gray-100 text-gray-800 rounded-2xl rounded-br-sm px-5 py-3 max-w-[85%] text-[15px] leading-relaxed shadow-sm">
+                        ${text}
+                    </div>
+                `;
+            } else {
+                msgRow.className = `flex items-start space-x-3 w-full animate-fadeIn`;
+                const formattedHtml = formatMessageWithIndigoCode(text);
+                
+                msgRow.innerHTML = `
+                    <div class="w-8 h-8 rounded-full border border-gray-200 flex-shrink-0 flex items-center justify-center bg-white shadow-sm mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-indigo-600">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                        </svg>
+                    </div>
+                    <div class="text-gray-800 text-[15px] leading-relaxed w-full max-w-[90%] pb-2">
+                        ${formattedHtml}
+                    </div>
+                `;
+            }
+
+            messagesWrapper.appendChild(msgRow);
+            
+            setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 10);
+        }
+
+        // CONNECTED TO FLASK BACKEND
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageText = userInput.value.trim();
+            if (!messageText) return;
+
+            // Render user message
+            appendMessage('user', messageText);
+            userInput.value = '';
+
+            try {
+                // Flask റൂട്ട് ആയ '/chat' ലേക്ക് നേരിട്ട് വിളിക്കുന്നു
+                const response = await fetch('/chat', { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: messageText })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // നിങ്ങളുടെ Flask കോഡിലുള്ള "reply" എന്ന key ഇവിടെ വിളിക്കുന്നു
+                if(data.reply) {
+                    appendMessage('ai', data.reply); 
+                } else {
+                    appendMessage('ai', 'Error: Invalid response from server');
+                }
+                
+            } catch (error) {
+                appendMessage('ai', `Error: സർവറുമായി ബന്ധപ്പെടാൻ കഴിഞ്ഞില്ല. (${error.message})`);
+                console.error('Fetch error:', error);
+            }
+        });
+    </script>
 </body>
-
 </html>
